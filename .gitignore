@@ -1,6 +1,9 @@
 #peronal file
 credentials.txt
 
+#artifacts
+artifact/
+
 #model pickle
 *.pkl
 

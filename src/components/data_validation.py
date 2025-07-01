@@ -90,9 +90,9 @@ class DataValidation:
         On Failure  :   Write an exception log and then raise an exception
         """
 
-        try:
+        try:            
             validation_error_msg = ""
-            logging.info("Starting data validation")
+            logging.info("Entered initiate_data_validation method of DataValidation class")
             train_df, test_df = (DataValidation.read_data(file_path=self.data_ingestion_artifact.trained_file_path),
                                  DataValidation.read_data(file_path=self.data_ingestion_artifact.test_file_path))
 

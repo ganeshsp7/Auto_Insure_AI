@@ -58,17 +58,15 @@ class DataIngestion:
         try:
             train_set, test_set = train_test_split(dataframe, test_size=self.data_ingestion_config.train_test_split_ratio)
             logging.info("Performed train test split on the dataframe")
-            logging.info(
-                "Exited split_data_as_train_test method of Data_Ingestion class"
-            )
             dir_path = os.path.dirname(self.data_ingestion_config.training_file_path)
             os.makedirs(dir_path,exist_ok=True)
             
-            logging.info(f"Exporting train and test file path.")
+            logging.info(f"Starting the export of train and test datasets to respective file paths.")
             train_set.to_csv(self.data_ingestion_config.training_file_path,index=False,header=True)
             test_set.to_csv(self.data_ingestion_config.testing_file_path,index=False,header=True)
 
-            logging.info(f"Exported train and test file path.")
+            logging.info(f"Successfully exported train and test file path.")
+            logging.info("Exited split_data_as_train_test method of Data_Ingestion class")
         except Exception as e:
             raise MyException(e, sys) from e
 
@@ -80,25 +78,23 @@ class DataIngestion:
         Output      :   train set and test set are returned as the artifacts of data ingestion components
         On Failure  :   Write an exception log and then raise an exception
         """
-        logging.info("Entered initiate_data_ingestion method of Data_Ingestion class")
 
         try:
+            logging.info("Entered initiate_data_ingestion method of Data_Ingestion class")
             dataframe = self.export_data_into_feature_store()
 
-            logging.info("Got the data from mongodb")
+            logging.info(f"Data successfully fetched from MongoDB and loaded into a dataframe with shape: {dataframe.shape}.")
+
 
             self.split_data_as_train_test(dataframe)
-
-            logging.info("Performed train test split on the dataset")
-
-            logging.info(
-                "Exited initiate_data_ingestion method of Data_Ingestion class"
-            )
+            logging.info(f"Data successfully split into training and testing datasets.")
+            
 
             data_ingestion_artifact = DataIngestionArtifact(trained_file_path=self.data_ingestion_config.training_file_path,
             test_file_path=self.data_ingestion_config.testing_file_path)
-            
+
             logging.info(f"Data ingestion artifact: {data_ingestion_artifact}")
+            logging.info("Exited initiate_data_ingestion method of Data_Ingestion class")
             return data_ingestion_artifact
         except Exception as e:
             raise MyException(e, sys) from e

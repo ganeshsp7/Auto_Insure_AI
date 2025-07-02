@@ -32,9 +32,18 @@ TEST_FILE_NAME: str = "test.csv"
 SCHEMA_FILE_PATH = os.path.join("config", "schema.yaml")
 
 
-AWS_ACCESS_KEY_ID_ENV_KEY = "AWS_ACCESS_KEY_ID"
-AWS_SECRET_ACCESS_KEY_ENV_KEY = "AWS_SECRET_ACCESS_KEY"
-REGION_NAME = "us-east-1"
+# AWS_ACCESS_KEY_ID_ENV_KEY ="AWS_ACCESS_KEY_ID"
+# AWS_SECRET_ACCESS_KEY_ENV_KEY = "AWS_SECRET_ACCESS_KEY"
+# REGION_NAME = "us-east-1"
+
+# ✅ Now you can safely read environment values
+AWS_ACCESS_KEY_ID_ENV_KEY = os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY_ENV_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+REGION_NAME = "us-east-1"  # This can stay hardcoded or be from .env
+
+# Optional: Raise if not set
+if not AWS_ACCESS_KEY_ID_ENV_KEY or not AWS_SECRET_ACCESS_KEY_ENV_KEY:
+    raise EnvironmentError("Missing AWS credentials in environment!")
 
 
 """
@@ -86,7 +95,7 @@ MODEL_TRAINER_METRIC_REPORT_FILE_NAME: str = "metric.yaml"
 MODEL Evaluation related constants
 """
 MODEL_EVALUATION_CHANGED_THRESHOLD_SCORE: float = 0.02
-MODEL_BUCKET_NAME = "my-model-mlopsproj"
+MODEL_BUCKET_NAME = "my-vehicle-bucket-data"
 MODEL_PUSHER_S3_KEY = "model-registry"
 
 
